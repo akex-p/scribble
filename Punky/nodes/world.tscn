@@ -1,0 +1,81 @@
+[gd_scene load_steps=12 format=3 uid="uid://b7bu28vo8vvu0"]
+
+[ext_resource type="PackedScene" uid="uid://dd0p35wo1m17p" path="res://nodes/world_plane.tscn" id="1_64hqp"]
+[ext_resource type="PackedScene" uid="uid://dlk4huab2shd0" path="res://nodes/player.tscn" id="2_nboq6"]
+[ext_resource type="PackedScene" uid="uid://baqvhav1ska2y" path="res://nodes/generic_npc_2.tscn" id="3_5n7yq"]
+[ext_resource type="PackedScene" uid="uid://b5xidqe5a7c40" path="res://nodes/camera.tscn" id="3_6878l"]
+[ext_resource type="PackedScene" uid="uid://ditp4sbau3jd0" path="res://nodes/generic_npc.tscn" id="4_s3qvp"]
+[ext_resource type="PackedScene" uid="uid://ryy8hfrcwppi" path="res://nodes/pillar.tscn" id="4_s642n"]
+[ext_resource type="AudioStream" uid="uid://djrc4cip0v2jy" path="res://resources/audio/Meow.mp3" id="6_h5j81"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m3j4g"]
+
+[sub_resource type="Sky" id="Sky_rpfqj"]
+sky_material = SubResource("ProceduralSkyMaterial_m3j4g")
+
+[sub_resource type="Environment" id="Environment_agw8m"]
+background_mode = 2
+sky = SubResource("Sky_rpfqj")
+sky_custom_fov = 48.5
+fog_enabled = true
+fog_light_color = Color(0.668334, 0.698344, 0.745498, 1)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_wjugc"]
+vertices = PackedVector3Array(-2.62702, 0.5, -9.5, -2.62702, 0.5, 9.5, 16.373, 0.5, 9.5, 16.373, 0.5, -9.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
+[node name="World" type="Node3D"]
+
+[node name="Setup" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Setup"]
+transform = Transform3D(0.587785, 0.705519, -0.395919, 0, 0.489382, 0.872069, 0.809017, -0.512589, 0.287652, 0, 0, 0)
+light_energy = 1.58
+shadow_enabled = true
+directional_shadow_mode = 0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Setup"]
+environment = SubResource("Environment_agw8m")
+
+[node name="Objects" type="Node3D" parent="."]
+
+[node name="Pillar" parent="Objects" instance=ExtResource("4_s642n")]
+transform = Transform3D(0.999499, 0, 0.031655, 0, 1, 0, -0.031655, 0, 0.999499, -6.38157, 3.5, 7.21898)
+
+[node name="GenericNPC" parent="Objects" node_paths=PackedStringArray("player") instance=ExtResource("4_s3qvp")]
+transform = Transform3D(-0.695963, 0, -0.718078, 0, 1, 0, 0.718078, 0, -0.695963, 6.96113, 0, 2.68636)
+player = NodePath("../../Player")
+
+[node name="GenericNPC2" parent="Objects" node_paths=PackedStringArray("random_timer") instance=ExtResource("3_5n7yq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.87298, 0, 0)
+move_speed = null
+follow_target = NodePath("../../Player")
+random_timer = NodePath("RandomTimer")
+
+[node name="RandomArea" parent="Objects/GenericNPC2" index="0"]
+navigation_mesh = SubResource("NavigationMesh_wjugc")
+
+[node name="WorldPlane" parent="." instance=ExtResource("1_64hqp")]
+
+[node name="Player" parent="." instance=ExtResource("2_nboq6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.560358, 0)
+
+[node name="Camera" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_6878l")]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+target = NodePath("../Player")
+distance = 12.0
+vertical_angle = 35.0
+follow_speed = 0.032
+raycast_min_distance = 0.01
+raycast_max_distance = 13.0
+
+[node name="Navi" type="MeshInstance3D" parent="."]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("6_h5j81")
+volume_db = 80.0
+autoplay = true
+bus = &"Music"
+
+[editable path="Objects/GenericNPC2"]
+[editable path="Objects/GenericNPC2/Interactable"]

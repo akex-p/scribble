@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://ryy8hfrcwppi"]
+
+[ext_resource type="PackedScene" uid="uid://b51eytda0736q" path="res://nodes/attributes/interactable.tscn" id="1_h4aad"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ch86g"]
+radius = 4.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_vlyfj"]
+size = Vector3(2, 7, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2lhtm"]
+size = Vector3(2, 7, 1)
+
+[node name="Pillar" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+collision_layer = 10
+collision_mask = 7
+
+[node name="Interactable" parent="." instance=ExtResource("1_h4aad")]
+timeline = "chest001"
+interactable = true
+reactive = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
+shape = SubResource("SphereShape3D_ch86g")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_vlyfj")
+skeleton = NodePath("")
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_2lhtm")

@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://ditp4sbau3jd0"]
+
+[ext_resource type="Script" path="res://scripts/generic_npc.gd" id="1_2suey"]
+[ext_resource type="PackedScene" uid="uid://bunnodi2rt0it" path="res://resources/meshes/blob.blend" id="1_t4ttr"]
+[ext_resource type="PackedScene" uid="uid://b51eytda0736q" path="res://nodes/attributes/interactable.tscn" id="3_m0a1t"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ibto7"]
+radius = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_02gn5"]
+radius = 7.0
+
+[node name="GenericNPC" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 12
+script = ExtResource("1_2suey")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("SphereShape3D_ibto7")
+
+[node name="Mesh" parent="." instance=ExtResource("1_t4ttr")]
+transform = Transform3D(-0.157141, 0, 0.987576, 0, 1, 0, -0.987576, 0, -0.157141, 0, 0.950887, 0)
+
+[node name="Interactable" parent="." instance=ExtResource("3_m0a1t")]
+timeline = "npc001"
+interactable = true
+reactive = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactable"]
+shape = SubResource("SphereShape3D_02gn5")
+
+[editable path="Interactable"]

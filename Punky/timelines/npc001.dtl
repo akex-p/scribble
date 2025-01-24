@@ -1,0 +1,10 @@
+[style name="textstyle_bubble"]
+Oh.. hey!
+- Yo!
+	So much fun awaits! YAAAY
+	- YAAAAAAAS
+		YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY!1!!!1!
+	- You seem odd... don't you?
+		...
+- ...
+do StateManager.exit_dialogue()
